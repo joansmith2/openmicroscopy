@@ -1,32 +1,26 @@
+---
 language: java
-
 env:
-    - BUILD=py BUILD_TARGET="build-default" TEST_TARGET="-py test -Dtest.with.fail=true"
-    - BUILD=java BUILD_TARGET="build-default test-compile" TEST_TARGET="-p"
-
+- BUILD=py BUILD_TARGET="build-default" TEST_TARGET="-py test -Dtest.with.fail=true"
+- BUILD=java BUILD_TARGET="build-default test-compile" TEST_TARGET="-p"
 matrix:
-      fast_finish: true
-
+  fast_finish: true
 jdk:
-  - openjdk7
-
+- openjdk7
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -qq git
-    - sudo apt-get install -qq zeroc-ice34
-    - sudo apt-get install -qq python-imaging python-numpy python-tables python-genshi
-    - git config github.token 3bc7fc530b01081559eb911f59ccfec7f4fb2592
-    - git config --global user.email snoopycrimecop@gmail.com
-    - git config --global user.name 'Snoopy Crime Cop'
-    - sudo pip install scc
-    - scc travis-merge
-    - if [[ $BUILD == 'py' ]]; then sudo pip install flake8; fi
-    - if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/src/omero/plugins;  fi
-    - if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/integration/clitest;  fi
-    - if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/unit/clitest;  fi
-
+- sudo apt-get -qq update
+- sudo apt-get install -qq git
+- sudo apt-get install -qq zeroc-ice34
+- sudo apt-get install -qq python-imaging python-numpy python-tables python-genshi
+- git config github.token 3bc7fc530b01081559eb911f59ccfec7f4fb2592
+- git config --global user.email snoopycrimecop@gmail.com
+- git config --global user.name 'Snoopy Crime Cop'
+- sudo pip install scc
+- scc travis-merge
+- if [[ $BUILD == 'py' ]]; then sudo pip install flake8; fi
+- if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/src/omero/plugins;  fi
+- if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/integration/clitest;  fi
+- if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/unit/clitest;  fi
 install: python build.py $BUILD_TARGET
-
-# Running python tests as script, since there's no compile step.
 script:
-    - python build.py $TEST_TARGET
+- python build.py $TEST_TARGET
