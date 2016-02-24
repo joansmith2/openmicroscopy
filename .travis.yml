@@ -1,29 +1,24 @@
+---
 language: java
-
 env:
-    - BUILD=all BUILD_TARGET="build-all" TEST_TARGET="-p"
-    - BUILD=py BUILD_TARGET="build-default test-compile" TEST_TARGET="-py test -Dtest.with.fail=true"
-    - BUILD=cpp BUILD_TARGET="build-all test-compile-all" TEST_TARGET="-cpp test -Dtest.with.fail=true"
-
+- BUILD=all BUILD_TARGET="build-all" TEST_TARGET="-p"
+- BUILD=py BUILD_TARGET="build-default test-compile" TEST_TARGET="-py test -Dtest.with.fail=true"
+- BUILD=cpp BUILD_TARGET="build-all test-compile-all" TEST_TARGET="-cpp test -Dtest.with.fail=true"
 jdk:
-  - openjdk7
-
+- openjdk7
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -qq git
-    - sudo apt-get install -qq zeroc-ice34
-    - sudo apt-get install -qq python-imaging python-numpy python-tables python-genshi
-    - git config github.token 3bc7fc530b01081559eb911f59ccfec7f4fb2592
-    - git config --global user.email snoopycrimecop@gmail.com
-    - git config --global user.name 'Snoopy Crime Cop'
-    - sudo pip install scc --use-mirrors
-    - scc travis-merge
-    - if [[ $BUILD == 'py' ]]; then sudo pip install flake8 --use-mirrors; fi
-
+- sudo apt-get -qq update
+- sudo apt-get install -qq git
+- sudo apt-get install -qq zeroc-ice34
+- sudo apt-get install -qq python-imaging python-numpy python-tables python-genshi
+- git config github.token 3bc7fc530b01081559eb911f59ccfec7f4fb2592
+- git config --global user.email snoopycrimecop@gmail.com
+- git config --global user.name 'Snoopy Crime Cop'
+- sudo pip install scc --use-mirrors
+- scc travis-merge
+- if [[ $BUILD == 'py' ]]; then sudo pip install flake8 --use-mirrors; fi
 install: python build.py $BUILD_TARGET
-
-# Running python tests as script, since there's no compile step.
 script:
-    - if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/src/omero/plugins;  fi
-    - if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/integration/clitest;  fi
-    - python build.py $TEST_TARGET
+- if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/src/omero/plugins;  fi
+- if [[ $BUILD == 'py' ]]; then flake8 -v components/tools/OmeroPy/test/integration/clitest;  fi
+- python build.py $TEST_TARGET
